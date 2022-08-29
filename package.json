@@ -1,13 +1,13 @@
 {
   "name": "spotibot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Spotify Discord Bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Boston Rohan",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.3.0"
