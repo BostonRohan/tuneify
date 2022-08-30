@@ -4,14 +4,15 @@
   "description": "Spotify Discord Bot",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "Boston Rohan",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.3.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "nodemon": "^2.0.19"
   },
   "devDependencies": {
     "@types/node": "^18.7.13",
