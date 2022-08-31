@@ -16,11 +16,9 @@ const handleSlashCommand = async (
   const slashCommand = Commands.find((c) => c.name === interaction.commandName);
 
   if (!slashCommand) {
-    interaction.followUp({ content: "An error has occurred" });
+    interaction.reply({ content: "An error has occurred" });
     return;
   }
-
-  await interaction.deferReply();
 
   slashCommand.run(client, interaction);
 };

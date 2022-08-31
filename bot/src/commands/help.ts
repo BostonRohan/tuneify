@@ -8,7 +8,7 @@ export const Help: Command = {
     const content =
       "For commands list: `/commands` \n Built by: *Boston Rohan* \n Need additional help? Contact me at: `Boss#3167`";
 
-    await interaction.followUp({
+    await interaction.reply({
       ephemeral: true,
       content,
     });
