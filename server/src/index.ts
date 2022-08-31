@@ -1,14 +1,13 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
+import router from "./routes/router";
 
 dotenv.config();
 
 const app = express();
 
 //routes
-app.get("/", (_req: Request, res: Response) => {
-  res.send("hello world");
-});
+app.use(router);
 
 app.listen(8888, () => {
   console.log(`server started at http://localhost:${8888}`);
