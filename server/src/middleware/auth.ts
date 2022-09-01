@@ -1,43 +1,32 @@
-import querystring from "querystring";
 import { Request, Response, NextFunction } from "express";
-import axios from "axios";
-import dotenv from "dotenv";
 import { client } from "../index";
-
-dotenv.config();
+import getToken from "../utils/getToken";
+import setAxiosHeaders from "../utils/setAxiosHeaders";
 
 const auth = async (req: Request, _res: Response, next: NextFunction) => {
-  const { code, state } = req.query;
-  const token = await client.get("token");
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-  } else if (code && state) {
-    //token data type????
-    const tokenData: any = {
-      code,
-      redirect_uri: "http://localhost:8888/",
-      grant_type: "authorization_code",
-    };
-    const { data } = await axios.post(
-      "https://accounts.spotify.com/api/token",
-      querystring.stringify(tokenData),
-      {
-        headers: {
-          Authorization:
-            "Basic " +
-            Buffer.from(
-              process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET
-            ).toString("base64"),
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-    const { access_token, error } = data;
+  const { code } = req.query;
 
-    error
-      ? client.set("spotifyError", error)
-      : client.set("token", access_token);
+  const access = await client.get("access");
+  const tokenExpiresAt = await client.get("tokenExpiresAt");
+  const refresh = await client.get("refresh");
+
+  if (!code && !access) next();
+
+  if (access && tokenExpiresAt && Math.round(Date.now()) < +tokenExpiresAt) {
+    setAxiosHeaders(access);
+  } else {
+    const { access_token, refresh_token, expires_in, error } = await getToken(
+      code as string | undefined,
+      refresh
+    );
+
+    client.set("access", access_token);
+    client.set("refresh", refresh_token);
+    client.set(
+      "tokenExpiresAt",
+      (Math.round(Date.now()) + expires_in * 1000).toString()
+    );
+    client.set("error", error);
   }
   next();
 };
