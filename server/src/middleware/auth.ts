@@ -2,12 +2,17 @@ import querystring from "querystring";
 import { Request, Response, NextFunction } from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+import { client } from "../index";
 
 dotenv.config();
 
-const auth = async (req: Request, res: Response, next: NextFunction) => {
+const auth = async (req: Request, _res: Response, next: NextFunction) => {
   const { code, state } = req.query;
-  if (code && state) {
+  const token = await client.get("token");
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+  } else if (code && state) {
     //token data type????
     const tokenData: any = {
       code,
@@ -30,11 +35,9 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     );
     const { access_token, error } = data;
 
-    if (error) res.send(error);
-    else {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-      axios.defaults.headers.common["Content-Type"] = "application/json";
-    }
+    error
+      ? client.set("spotifyError", error)
+      : client.set("token", access_token);
   }
   next();
 };
