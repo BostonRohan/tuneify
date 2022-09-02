@@ -2,7 +2,7 @@ const getTokenData = (code: string | undefined, refresh: string | null) => {
   if (refresh) {
     return {
       grant_type: "refresh_token",
-      refresh,
+      refresh_token: refresh,
     };
   } else
     return {

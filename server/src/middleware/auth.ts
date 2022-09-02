@@ -26,7 +26,7 @@ const auth = async (req: Request, _res: Response, next: NextFunction) => {
       "tokenExpiresAt",
       (Math.round(Date.now()) + expires_in * 1000).toString()
     );
-    client.set("error", error);
+    client.set("error", error.toString());
   }
   next();
 };
