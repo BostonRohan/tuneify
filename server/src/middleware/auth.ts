@@ -20,13 +20,15 @@ const auth = async (req: Request, _res: Response, next: NextFunction) => {
       refresh
     );
 
-    client.set("access", access_token);
-    client.set("refresh", refresh_token);
-    client.set(
-      "tokenExpiresAt",
-      (Math.round(Date.now()) + expires_in * 1000).toString()
-    );
-    client.set("error", error.toString());
+    if (error) client.set("error", error.toString());
+    else {
+      client.set("access", access_token);
+      client.set("refresh", refresh_token);
+      client.set(
+        "tokenExpiresAt",
+        (Math.round(Date.now()) + expires_in * 1000).toString()
+      );
+    }
   }
   next();
 };
