@@ -7,10 +7,10 @@ const loggedIn = async (_req: Request, res: Response) => {
   if (error) res.send({ error });
   else {
     try {
-      const { data } = await axios.get("https://api.spotify.com/v1/me");
+      const { data } = await axios.get("https://api.spotify.com/v1/medadad");
       res.send(data);
     } catch (err) {
-      res.send(err);
+      res.send({ error: err });
     }
   }
 };
