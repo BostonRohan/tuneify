@@ -1,19 +1,9 @@
 {
   "compilerOptions": {
-    /* Language and Environment */
-    "target": "es2016",
-
-    /* Modules */
-    "module": "commonjs",
-
-    /* Interop Constraints */
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-
-    /* Type Checking */
+    "sourceMap": true,
+    "outDir": "dist",
     "strict": true,
-
-    /* Completeness */
-    "skipLibCheck": true
+    "lib": ["esnext"],
+    "esModuleInterop": true
   }
 }
