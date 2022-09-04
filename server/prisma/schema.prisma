@@ -12,8 +12,10 @@ datasource db {
 
 model User {
   id    Int    @unique
-  name  String
-  access_token String
-  refresh_token String
-  expires_in DateTime
+  name  String?
+  access_token String?
+  refresh_token String?
+  expires_in DateTime?
+  url String?
+  image String?
 }
