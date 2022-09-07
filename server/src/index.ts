@@ -19,6 +19,9 @@ export const prisma = new PrismaClient();
   await client.connect();
 })();
 
+//middleware
+app.use(express.json());
+
 //routes
 app.use(router);
 

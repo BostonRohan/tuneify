@@ -5,21 +5,34 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const getToken = async (code: string | undefined, refresh: string | null) => {
-  const tokenData = getTokenData(code, refresh);
+export interface Props {
+  code: string | undefined;
+  refresh_token?: string;
+  api: "discord" | "spotify";
+}
+
+const getToken = async ({ code, api }: Props) => {
+  const tokenData = getTokenData({ code, api });
 
   const { data } = await axios.post(
-    "https://accounts.spotify.com/api/token",
+    api === "spotify"
+      ? "https://accounts.spotify.com/api/token"
+      : "https://discord.com/api/oauth2/token",
     querystring.stringify(tokenData),
     {
-      headers: {
-        Authorization:
-          "Basic " +
-          Buffer.from(
-            process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET
-          ).toString("base64"),
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers:
+        api === "spotify"
+          ? {
+              Authorization:
+                "Basic " +
+                Buffer.from(
+                  process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET
+                ).toString("base64"),
+              "Content-Type": "application/x-www-form-urlencoded",
+            }
+          : {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
     }
   );
   return data;
