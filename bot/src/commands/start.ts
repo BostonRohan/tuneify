@@ -6,7 +6,6 @@ import {
   CommandInteraction,
   EmbedBuilder,
 } from "discord.js";
-import url from "../utils/authUrl";
 import { Command } from "../commands";
 import axios from "axios";
 
@@ -16,7 +15,7 @@ export const Start: Command = {
   run: async (client: Client, interaction: CommandInteraction) => {
     const row: any = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setURL(url)
+        .setURL("")
         .setLabel("Spotify")
         .setStyle(ButtonStyle.Link)
     );
