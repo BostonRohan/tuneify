@@ -68,7 +68,7 @@ const discordAuth = async (req: Request, res: Response) => {
       });
       res.redirect(spotifyUrl);
     }
-  } catch (err) {
+  } catch {
     res.redirect("https://discord.com/channels/@me");
   }
 };
