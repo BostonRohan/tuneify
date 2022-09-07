@@ -11,7 +11,8 @@ datasource db {
 }
 
 model User {
-  id    Int    @unique
+  spotify_id String @unique
+  discord_id String @unique
   name  String?
   access_token String?
   refresh_token String?
