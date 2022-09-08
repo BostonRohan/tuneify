@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import getToken from "../../utils/getToken";
 import axios from "axios";
 import { prisma } from "../../index";
-import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 interface Query {
   code: string | undefined;
@@ -38,8 +41,15 @@ const spotifyAuth = async (req: Request, res: Response) => {
         spotify_id,
       },
       data: {
-        access_token: await bcrypt.hash(access_token, 10),
-        refresh_token: await bcrypt.hash(refresh_token, 10),
+        access_token: jwt.sign(
+          { access_token },
+          process.env.JWT_SECRET as string,
+          { expiresIn: Math.floor(Date.now() / 1000) + expires_in }
+        ),
+        refresh_token: jwt.sign(
+          { refresh_token },
+          process.env.JWT_SECRET as string
+        ),
         name: display_name,
         image: images[0].url,
         url: spotify,
