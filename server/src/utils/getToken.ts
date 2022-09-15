@@ -6,13 +6,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export interface Props {
-  code: string | undefined;
+  code?: string | undefined;
   refresh_token?: string;
   api: "discord" | "spotify";
 }
 
-const getToken = async ({ code, api }: Props) => {
-  const tokenData = getTokenData({ code, api });
+const getToken = async ({ code, api, refresh_token }: Props) => {
+  const tokenData = getTokenData({ code, api, refresh_token });
 
   const { data } = await axios.post(
     api === "spotify"
