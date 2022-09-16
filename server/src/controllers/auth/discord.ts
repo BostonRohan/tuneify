@@ -36,14 +36,14 @@ const discordAuth = async (req: Request, res: Response) => {
     const { data } = await axios.get(
       "https://discord.com/api/users/@me/connections",
       {
-        headers: headers,
+        headers,
       }
     );
 
     const {
       data: { id },
     } = await axios.get("https://discord.com/api/users/@me", {
-      headers: headers,
+      headers,
     });
 
     const discord_id = id;
@@ -57,9 +57,7 @@ const discordAuth = async (req: Request, res: Response) => {
       },
     });
 
-    if (!spotify_id || user) {
-      res.redirect("https://discord.com/channels/@me");
-    } else {
+    if (!user && spotify_id) {
       await prisma.user.create({
         data: {
           spotify_id,
@@ -67,6 +65,10 @@ const discordAuth = async (req: Request, res: Response) => {
         },
       });
       res.redirect(spotifyUrl);
+    } else if (user && user.spotify_id && !user.name) {
+      res.redirect(spotifyUrl);
+    } else {
+      res.redirect("https://discord.com/channels/@me");
     }
   } catch {
     res.redirect("https://discord.com/channels/@me");
