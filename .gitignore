@@ -1,3 +1,4 @@
 node_modules
 .env
-server/migrations
+migrations
+dev.db
