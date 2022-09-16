@@ -44,7 +44,7 @@ const spotifyAuth = async (req: Request, res: Response) => {
         access_token: jwt.sign(
           { access_token },
           process.env.JWT_SECRET as string,
-          { expiresIn: Math.floor(Date.now() / 1000) + expires_in }
+          { expiresIn: Math.round(Date.now() / 1000) + expires_in }
         ),
         refresh_token: jwt.sign(
           { refresh_token },
