@@ -20,7 +20,9 @@ interface DecodedRefresh {
 }
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
-  const { discord_id } = req.body;
+  const {
+    body: { discord_id },
+  } = req;
 
   if (discord_id) {
     const user = await prisma.user.findUnique({
@@ -33,11 +35,6 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     if (data) {
       const { expires_in } = data;
-
-      const { access_token } = jwt.verify(
-        data.access_token,
-        process.env.JWT_SECRET as string
-      ) as DecodedAccess;
 
       const { refresh_token } = jwt.verify(
         data.refresh_token,
@@ -72,6 +69,11 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
           res.send({ error });
         }
       } else {
+        const { access_token } = jwt.verify(
+          data.access_token,
+          process.env.JWT_SECRET as string
+        ) as DecodedAccess;
+
         setAxiosHeaders(access_token);
         next();
       }
