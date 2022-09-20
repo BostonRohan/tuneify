@@ -66,6 +66,7 @@ export const Start: Command = {
               if (error) {
                 await interaction.followUp({
                   content: "you are not logged in, please try again.",
+                  ephemeral: true,
                 });
               } else {
                 await loggedInInteraction(
