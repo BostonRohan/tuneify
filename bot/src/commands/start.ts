@@ -22,7 +22,7 @@ export const Start: Command = {
       user: { id },
     } = interaction;
 
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
       const {
@@ -57,27 +57,23 @@ export const Start: Command = {
             componentType: ComponentType.Button,
           })
           .on("collect", async (btn) => {
-            btn.deferUpdate();
-            try {
-              const {
-                data: { display_name, images, external_urls, error },
-              } = await loggedIn(id);
+            await btn.deferUpdate();
+            const {
+              data: { display_name, images, external_urls, error },
+            } = await loggedIn(id);
 
-              if (error) {
-                await interaction.followUp({
-                  content: "you are not logged in, please try again.",
-                  ephemeral: true,
-                });
-              } else {
-                await loggedInInteraction(
-                  interaction,
-                  display_name,
-                  images[0].url,
-                  external_urls.spotify
-                );
-              }
-            } catch {
-              await errorInteraction(interaction);
+            if (error) {
+              await interaction.followUp({
+                content: "you are not logged in, please try again.",
+                ephemeral: true,
+              });
+            } else {
+              await loggedInInteraction(
+                interaction,
+                display_name,
+                images[0].url,
+                external_urls.spotify
+              );
             }
           });
       } else {
