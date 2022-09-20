@@ -80,6 +80,8 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     } else {
       res.send({ error });
     }
+  } else {
+    res.send({ unauthorized: "discord" });
   }
 };
 export default auth;
