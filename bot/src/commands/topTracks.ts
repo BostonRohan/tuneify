@@ -1,42 +1,45 @@
 import { Client, ChatInputCommandInteraction } from "discord.js";
-import loggedIn from "../utils/loggedIn";
 import { Command } from "../commands";
-import top from "../utils/top";
 import errorInteraction from "../utils/errorInteraction";
-import toTitleCase from "../utils/toTitleCase";
-import options from "../utils/rangeSubCommandOptions";
 import handleRangeAbbreviation from "../utils/handleRangeAbbreviation";
+import loggedIn from "../utils/loggedIn";
 import topEmbed from "../utils/topEmbed";
+import options from "../utils/rangeSubCommandOptions";
+import top from "../utils/top";
+import { Data, Image, External_URLS } from "./topArtists";
 
-export type Image = {
-  height: number | null;
-  url: string;
-  width: number | null;
-};
-
-export type External_URLS = {
-  external_urls: { spotify: string };
-};
-
-export interface Data {
-  href: string;
-  id: string;
-  name: string;
-  type: string;
-  uri: string;
-}
-
-interface Artist extends Data {
-  external_urls: External_URLS;
-  followers: { href: string | null; total: number };
-  genres: string[];
+interface AlbumData {
+  artists: Array<Data & External_URLS>;
+  available_markets: string[];
+  album_type: string;
   images: Image[];
-  popularity: number;
+  release_date: string;
+  release_date_precision: string;
+  total_tracks: number;
 }
 
-export const TopArtists: Command = {
-  name: "ta",
-  description: "find out your top artists!",
+interface Album {
+  album: Data & AlbumData;
+}
+
+type Track = Album &
+  Data & {
+    artists: Array<Data & External_URLS>;
+    available_markets: string[];
+    disc_number: number;
+    duration_ms: number;
+    explicit: boolean;
+    external_ids: object;
+    external_urls: External_URLS;
+    is_local: boolean;
+    popularity: number;
+    preview_url: string;
+    track_number: number;
+  };
+
+export const TopTracks: Command = {
+  name: "tt",
+  description: "find out your top tracks!",
   options,
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     const {
@@ -66,13 +69,13 @@ export const TopArtists: Command = {
 
       const {
         data: { items },
-      } = await top(id, range, "artists");
+      } = await top(id, range, "tracks");
 
       const embed = topEmbed(
-        "Artists",
+        "Tracks",
         username,
         range,
-        items[0].images[0].url,
+        items[0].album.images[0].url,
         display_name,
         spotify,
         images[0].url,
@@ -80,13 +83,12 @@ export const TopArtists: Command = {
         avatarURL
       );
 
-      items.map((artist: Artist, i: number) =>
+      items.map((track: Track, i: number) =>
         embed.addFields({
-          name: `${(i + 1).toString()}. ${artist.name}`,
-          value: artist.genres
-            .slice(0, 2)
-            .map((genre) => toTitleCase(genre) || "genre not listed")
-            .join(", "),
+          name: `${(i + 1).toString()}. ${track.name}`,
+          value: `*${track.album.name}*, ${track.artists
+            .map((artist: Data & External_URLS) => artist.name)
+            .join(", ")}`,
         })
       );
 

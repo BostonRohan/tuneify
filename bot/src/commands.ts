@@ -1,5 +1,4 @@
 import {
-  CommandInteraction,
   ChatInputApplicationCommandData,
   Client,
   ChatInputCommandInteraction,
@@ -7,9 +6,10 @@ import {
 import { Help } from "./commands/help";
 import { Start } from "./commands/start";
 import { TopArtists } from "./commands/topArtists";
+import { TopTracks } from "./commands/topTracks";
 
 export interface Command extends ChatInputApplicationCommandData {
   run: (client: Client, interaction: ChatInputCommandInteraction) => void;
 }
 
-export const Commands: Command[] = [Help, Start, TopArtists];
+export const Commands: Command[] = [Help, Start, TopArtists, TopTracks];
