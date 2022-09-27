@@ -2,8 +2,8 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  ChatInputCommandInteraction,
   Client,
-  CommandInteraction,
   ComponentType,
 } from "discord.js";
 import { Command } from "../commands";
@@ -17,7 +17,7 @@ dotenv.config();
 export const Start: Command = {
   name: "start",
   description: "start by logging in.",
-  run: async (client: Client, interaction: CommandInteraction) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     const {
       user: { id },
     } = interaction;
