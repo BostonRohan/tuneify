@@ -2,6 +2,7 @@ import { EmbedBuilder } from "discord.js";
 import toTitleCase from "./toTitleCase";
 
 export default (
+  type: "Artists" | "Tracks",
   username: string,
   range: string,
   thumbnail: string,
@@ -13,7 +14,7 @@ export default (
 ) => {
   return new EmbedBuilder()
     .setColor(0xdb954)
-    .setTitle(`${username}'s Top Spotify Artists`)
+    .setTitle(`${username}'s Top Spotify ${type}`)
     .setDescription(`*${toTitleCase(range.replace(/_/g, " "))}*`)
     .setThumbnail(thumbnail)
     .setAuthor({
