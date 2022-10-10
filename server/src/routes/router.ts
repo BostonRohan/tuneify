@@ -11,7 +11,7 @@ const router = express.Router();
 //endpoints
 router.get("/discord/auth", discordAuth);
 router.get("/spotify/auth", spotifyAuth);
-router.get("/currentlyplaying", auth, currentlyPlaying);
+router.post("/currentlyplaying", auth, currentlyPlaying);
 router.post("/loggedin", auth, loggedIn);
 router.post("/top", auth, top);
 export default router;
