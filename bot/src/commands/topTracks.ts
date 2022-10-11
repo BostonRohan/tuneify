@@ -7,6 +7,7 @@ import topEmbed from "../utils/topEmbed";
 import options from "../utils/rangeSubCommandOptions";
 import top from "../utils/top";
 import { Data, Image, External_URLS } from "./topArtists";
+import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 
 interface AlbumData {
   artists: Array<Data & External_URLS>;
@@ -51,50 +52,48 @@ export const TopTracks: Command = {
     await interaction.deferReply();
 
     try {
-      const {
-        data: {
+      const { data } = await loggedIn(id);
+
+      if (data.error) {
+        await notLoggedInInteraction(interaction);
+      } else {
+        const {
           display_name,
           images,
-          external_urls: { spotify },
           error,
-        },
-      } = await loggedIn(id);
+          external_urls: { spotify },
+        } = data;
+        const range = handleRangeAbbreviation(subCommand);
 
-      if (error) {
+        const {
+          data: { items },
+        } = await top(id, range, "tracks");
+
+        const embed = topEmbed(
+          "Tracks",
+          username,
+          range,
+          items[0].album.images[0].url,
+          display_name,
+          spotify,
+          images[0].url,
+          avatar,
+          avatarURL
+        );
+
+        items.map((track: Track, i: number) =>
+          embed.addFields({
+            name: `${(i + 1).toString()}. ${track.name}`,
+            value: `*${track.album.name}*, ${track.artists
+              .map((artist: Data & External_URLS) => artist.name)
+              .join(", ")}`,
+          })
+        );
+
         await interaction.followUp({
-          content: "you are not logged in please retry the `/start` command.",
+          embeds: [embed],
         });
       }
-      const range = handleRangeAbbreviation(subCommand);
-
-      const {
-        data: { items },
-      } = await top(id, range, "tracks");
-
-      const embed = topEmbed(
-        "Tracks",
-        username,
-        range,
-        items[0].album.images[0].url,
-        display_name,
-        spotify,
-        images[0].url,
-        avatar,
-        avatarURL
-      );
-
-      items.map((track: Track, i: number) =>
-        embed.addFields({
-          name: `${(i + 1).toString()}. ${track.name}`,
-          value: `*${track.album.name}*, ${track.artists
-            .map((artist: Data & External_URLS) => artist.name)
-            .join(", ")}`,
-        })
-      );
-
-      await interaction.followUp({
-        embeds: [embed],
-      });
     } catch {
       await errorInteraction(interaction);
     }

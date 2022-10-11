@@ -7,6 +7,7 @@ import toTitleCase from "../utils/toTitleCase";
 import options from "../utils/rangeSubCommandOptions";
 import handleRangeAbbreviation from "../utils/handleRangeAbbreviation";
 import topEmbed from "../utils/topEmbed";
+import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 
 export type Image = {
   height: number | null;
@@ -15,7 +16,7 @@ export type Image = {
 };
 
 export type External_URLS = {
-  external_urls: { spotify: string };
+  spotify: string;
 };
 
 export interface Data {
@@ -48,52 +49,50 @@ export const TopArtists: Command = {
     await interaction.deferReply();
 
     try {
-      const {
-        data: {
+      const { data } = await loggedIn(id);
+
+      if (data.error) {
+        await notLoggedInInteraction(interaction);
+      } else {
+        const {
           display_name,
           images,
           external_urls: { spotify },
-          error,
-        },
-      } = await loggedIn(id);
+        } = data;
+        const range = handleRangeAbbreviation(subCommand);
 
-      if (error) {
+        const {
+          data: { items },
+        } = await top(id, range, "artists");
+
+        const embed = topEmbed(
+          "Artists",
+          username,
+          range,
+          items[0].images[0].url,
+          display_name,
+          spotify,
+          images[0].url,
+          avatar,
+          avatarURL
+        );
+
+        items.map((artist: Artist, i: number) =>
+          embed.addFields({
+            name: `${(i + 1).toString()}. ${artist.name}`,
+            value: artist.genres
+              .slice(0, 2)
+              .map((genre) => toTitleCase(genre) || "genre not listed")
+              .join(", "),
+          })
+        );
+
         await interaction.followUp({
-          content: "you are not logged in please retry the `/start` command.",
+          embeds: [embed],
         });
       }
-      const range = handleRangeAbbreviation(subCommand);
-
-      const {
-        data: { items },
-      } = await top(id, range, "artists");
-
-      const embed = topEmbed(
-        "Artists",
-        username,
-        range,
-        items[0].images[0].url,
-        display_name,
-        spotify,
-        images[0].url,
-        avatar,
-        avatarURL
-      );
-
-      items.map((artist: Artist, i: number) =>
-        embed.addFields({
-          name: `${(i + 1).toString()}. ${artist.name}`,
-          value: artist.genres
-            .slice(0, 2)
-            .map((genre) => toTitleCase(genre) || "genre not listed")
-            .join(", "),
-        })
-      );
-
-      await interaction.followUp({
-        embeds: [embed],
-      });
-    } catch {
+    } catch (err) {
+      console.log(err);
       await errorInteraction(interaction);
     }
   },
