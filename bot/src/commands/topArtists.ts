@@ -6,8 +6,8 @@ import errorInteraction from "../utils/errorInteraction";
 import toTitleCase from "../utils/toTitleCase";
 import options from "../utils/rangeSubCommandOptions";
 import handleRangeAbbreviation from "../utils/handleRangeAbbreviation";
-import topEmbed from "../utils/topEmbed";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
+import defaultEmbed from "../utils/defaultEmbed";
 
 export type Image = {
   height: number | null;
@@ -65,17 +65,19 @@ export const TopArtists: Command = {
           data: { items },
         } = await top(id, range, "artists");
 
-        const embed = topEmbed(
-          "Artists",
-          username,
-          range,
+        const embed = defaultEmbed(
           items[0].images[0].url,
           display_name,
-          spotify,
           images[0].url,
+          spotify,
+          username,
           avatar,
           avatarURL
         );
+
+        embed
+          .setTitle(`${username}'s Top Spotify Artists`)
+          .setDescription(`*${toTitleCase(range.replace(/_/g, " "))}*`);
 
         items.map((artist: Artist, i: number) =>
           embed.addFields({
@@ -91,8 +93,7 @@ export const TopArtists: Command = {
           embeds: [embed],
         });
       }
-    } catch (err) {
-      console.log(err);
+    } catch {
       await errorInteraction(interaction);
     }
   },

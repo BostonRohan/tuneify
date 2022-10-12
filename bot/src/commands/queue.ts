@@ -4,7 +4,7 @@ import axios from "axios";
 import errorInteraction from "../utils/errorInteraction";
 import loggedIn from "../utils/loggedIn";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
-import defaultEmbed from "../utils/embedDefault";
+import defaultEmbed from "../utils/defaultEmbed";
 import { Track } from "./topTracks";
 import { Data, External_URLS } from "./topArtists";
 
@@ -53,10 +53,11 @@ export const Queue: Command = {
             avatarURL
           );
 
-          embed.setTitle(`${username}'s Queue`);
-          embed.setDescription(
-            `Currently Playing: *${currently_playing.name}*, ${currently_playing.artists[0].name} `
-          );
+          embed
+            .setTitle(`${username}'s Queue`)
+            .setDescription(
+              `Currently Playing: *${currently_playing.name}*, ${currently_playing.artists[0].name} `
+            );
 
           queue.slice(0, 10).map((track: Track, i: number) => {
             embed.addFields({
