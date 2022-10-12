@@ -5,6 +5,7 @@ import {
 } from "discord.js";
 import { CurrentlyPlaying } from "./commands/currentlyPlaying";
 import { Help } from "./commands/help";
+import { Queue } from "./commands/queue";
 import { Start } from "./commands/start";
 import { TopArtists } from "./commands/topArtists";
 import { TopTracks } from "./commands/topTracks";
@@ -19,4 +20,5 @@ export const Commands: Command[] = [
   TopArtists,
   TopTracks,
   CurrentlyPlaying,
+  Queue,
 ];
