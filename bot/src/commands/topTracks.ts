@@ -23,7 +23,7 @@ interface Album {
   album: Data & AlbumData;
 }
 
-type Track = Album &
+export type Track = Album &
   Data & {
     artists: Array<Data & External_URLS>;
     available_markets: string[];
