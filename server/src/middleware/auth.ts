@@ -5,6 +5,7 @@ import setAxiosHeaders from "../utils/setAxiosHeaders";
 import isUser from "../utils/isUser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import setReqHeaders from "../utils/setReqHeaders";
 
 dotenv.config();
 
@@ -64,9 +65,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
           setAxiosHeaders(access_token);
 
-          req.user = name;
-          req.userUrl = url;
-          req.image = image;
+          setReqHeaders(req, name, url, image);
 
           next();
         } catch (error) {
@@ -80,9 +79,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         setAxiosHeaders(access_token);
 
-        req.user = name;
-        req.userUrl = url;
-        req.image = image;
+        setReqHeaders(req, name, url, image);
 
         next();
       }
