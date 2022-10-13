@@ -4,7 +4,7 @@ import axios from "axios";
 import errorInteraction from "../utils/errorInteraction";
 import loggedIn from "../utils/loggedIn";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
-import defaultEmbed from "../utils/embedDefault";
+import defaultEmbed from "../utils/defaultEmbed";
 import { Track } from "./topTracks";
 import { Data, External_URLS } from "./topArtists";
 
@@ -21,17 +21,12 @@ export const Queue: Command = {
     await interaction.deferReply();
 
     try {
-      const { data } = await loggedIn(discord_id);
-      if (data.error) {
+      const {
+        data: { error, name, iconURL, url },
+      } = await loggedIn(discord_id);
+      if (error) {
         await notLoggedInInteraction(interaction);
       } else {
-        const {
-          display_name,
-          images,
-          error,
-          external_urls: { spotify },
-        } = data;
-
         const {
           data: { currently_playing, queue },
         } = await axios.post("http://localhost:8888/queue", {
@@ -45,18 +40,19 @@ export const Queue: Command = {
 
           const embed = defaultEmbed(
             thumbnail,
-            display_name,
-            images[0].url,
-            spotify,
+            name,
+            iconURL,
+            url,
             username,
             avatar,
             avatarURL
           );
 
-          embed.setTitle(`${username}'s Queue`);
-          embed.setDescription(
-            `Currently Playing: *${currently_playing.name}*, ${currently_playing.artists[0].name} `
-          );
+          embed
+            .setTitle(`${username}'s Queue`)
+            .setDescription(
+              `Currently Playing: *${currently_playing.name}*, ${currently_playing.artists[0].name} `
+            );
 
           queue.slice(0, 10).map((track: Track, i: number) => {
             embed.addFields({

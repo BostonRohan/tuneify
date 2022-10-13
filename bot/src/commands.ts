@@ -6,6 +6,7 @@ import {
 import { CurrentlyPlaying } from "./commands/currentlyPlaying";
 import { Help } from "./commands/help";
 import { Queue } from "./commands/queue";
+import { RecentlyPlayed } from "./commands/recentlyPlayed";
 import { Start } from "./commands/start";
 import { TopArtists } from "./commands/topArtists";
 import { TopTracks } from "./commands/topTracks";
@@ -21,4 +22,5 @@ export const Commands: Command[] = [
   TopTracks,
   CurrentlyPlaying,
   Queue,
+  RecentlyPlayed,
 ];
