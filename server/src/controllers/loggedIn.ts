@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 
 const loggedIn = async (req: Request, res: Response) => {
   try {
-    const { user, userUrl, image } = req;
+    const { name, url, iconURL } = req;
 
-    res.send({ user, userUrl, image });
+    res.send({ name, url, iconURL });
   } catch (error) {
     res.send({ error });
   }
