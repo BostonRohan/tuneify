@@ -5,6 +5,7 @@ import setAxiosHeaders from "../utils/setAxiosHeaders";
 import isUser from "../utils/isUser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import setReqHeaders from "../utils/setReqHeaders";
 
 dotenv.config();
 
@@ -34,7 +35,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     const { error, data } = isUser(user);
 
     if (data) {
-      const { expires_in } = data;
+      const { expires_in, name, url, image } = data;
 
       const { refresh_token } = jwt.verify(
         data.refresh_token,
@@ -64,6 +65,8 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
           setAxiosHeaders(access_token);
 
+          setReqHeaders(req, name, url, image);
+
           next();
         } catch (error) {
           res.send({ error });
@@ -75,6 +78,9 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
         ) as DecodedAccess;
 
         setAxiosHeaders(access_token);
+
+        setReqHeaders(req, name, url, image);
+
         next();
       }
     } else {
