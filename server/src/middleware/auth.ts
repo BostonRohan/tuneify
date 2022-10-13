@@ -34,7 +34,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     const { error, data } = isUser(user);
 
     if (data) {
-      const { expires_in } = data;
+      const { expires_in, name, url, image } = data;
 
       const { refresh_token } = jwt.verify(
         data.refresh_token,
@@ -64,6 +64,10 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
           setAxiosHeaders(access_token);
 
+          req.user = name;
+          req.userUrl = url;
+          req.image = image;
+
           next();
         } catch (error) {
           res.send({ error });
@@ -75,6 +79,11 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
         ) as DecodedAccess;
 
         setAxiosHeaders(access_token);
+
+        req.user = name;
+        req.userUrl = url;
+        req.image = image;
+
         next();
       }
     } else {

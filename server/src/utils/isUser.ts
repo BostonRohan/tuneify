@@ -9,18 +9,24 @@ interface Data {
   access_token: string;
   refresh_token: string;
   expires_in: Date;
+  name: string;
+  url: string;
+  image: string;
 }
 
 const isUser = (user: User | null): { data?: Data; error?: Error } => {
   if (user) {
-    const { access_token, refresh_token, expires_in } = user;
+    const { access_token, refresh_token, expires_in, name, url, image } = user;
 
-    if (access_token && refresh_token && expires_in) {
+    if (access_token && refresh_token && expires_in && name && url && image) {
       return {
         data: {
           access_token,
           refresh_token,
           expires_in,
+          name,
+          url,
+          image,
         },
       };
     } else {
