@@ -26,7 +26,7 @@ export const Start: Command = {
 
     try {
       const {
-        data: { display_name, images, external_urls, error },
+        data: { name, iconURL, url, error },
       } = await loggedIn(id);
 
       if (error) {
@@ -59,7 +59,7 @@ export const Start: Command = {
           .on("collect", async (btn) => {
             await btn.deferUpdate();
             const {
-              data: { display_name, images, external_urls, error },
+              data: { name, iconURL, url, error },
             } = await loggedIn(id);
 
             if (error) {
@@ -68,21 +68,11 @@ export const Start: Command = {
                 ephemeral: true,
               });
             } else {
-              await loggedInInteraction(
-                interaction,
-                display_name,
-                images[0].url,
-                external_urls.spotify
-              );
+              await loggedInInteraction(interaction, name, iconURL, url);
             }
           });
       } else {
-        await loggedInInteraction(
-          interaction,
-          display_name,
-          images[0].url,
-          external_urls.spotify
-        );
+        await loggedInInteraction(interaction, name, iconURL, url);
       }
     } catch {
       await errorInteraction(interaction);

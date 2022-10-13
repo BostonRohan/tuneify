@@ -21,17 +21,12 @@ export const Queue: Command = {
     await interaction.deferReply();
 
     try {
-      const { data } = await loggedIn(discord_id);
-      if (data.error) {
+      const {
+        data: { error, name, iconURL, url },
+      } = await loggedIn(discord_id);
+      if (error) {
         await notLoggedInInteraction(interaction);
       } else {
-        const {
-          display_name,
-          images,
-          error,
-          external_urls: { spotify },
-        } = data;
-
         const {
           data: { currently_playing, queue },
         } = await axios.post("http://localhost:8888/queue", {
@@ -45,9 +40,9 @@ export const Queue: Command = {
 
           const embed = defaultEmbed(
             thumbnail,
-            display_name,
-            images[0].url,
-            spotify,
+            name,
+            iconURL,
+            url,
             username,
             avatar,
             avatarURL

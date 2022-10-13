@@ -49,16 +49,13 @@ export const TopArtists: Command = {
     await interaction.deferReply();
 
     try {
-      const { data } = await loggedIn(id);
+      const {
+        data: { name, iconURL, url, error },
+      } = await loggedIn(id);
 
-      if (data.error) {
+      if (error) {
         await notLoggedInInteraction(interaction);
       } else {
-        const {
-          display_name,
-          images,
-          external_urls: { spotify },
-        } = data;
         const range = handleRangeAbbreviation(subCommand);
 
         const {
@@ -67,9 +64,9 @@ export const TopArtists: Command = {
 
         const embed = defaultEmbed(
           items[0].images[0].url,
-          display_name,
-          images[0].url,
-          spotify,
+          name,
+          iconURL,
+          url,
           username,
           avatar,
           avatarURL

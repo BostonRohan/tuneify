@@ -19,17 +19,13 @@ export const CurrentlyPlaying: Command = {
     await interaction.deferReply();
 
     try {
-      const { data } = await loggedIn(discord_id);
+      const {
+        data: { name, iconURL, url, error },
+      } = await loggedIn(discord_id);
 
-      if (data.error) {
+      if (error) {
         await notLoggedInInteraction(interaction);
       } else {
-        const {
-          display_name,
-          images,
-          error,
-          external_urls: { spotify },
-        } = data;
         const {
           data: { item },
         } = await axios.post("http://localhost:8888/currentlyplaying", {
@@ -39,9 +35,9 @@ export const CurrentlyPlaying: Command = {
         if (item) {
           const embed = defaultEmbed(
             item.album.images[0].url,
-            display_name,
-            images[0].url,
-            spotify,
+            name,
+            iconURL,
+            url,
             username,
             avatar,
             avatarURL
