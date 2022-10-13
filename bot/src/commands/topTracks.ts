@@ -3,11 +3,11 @@ import { Command } from "../commands";
 import errorInteraction from "../utils/errorInteraction";
 import handleRangeAbbreviation from "../utils/handleRangeAbbreviation";
 import loggedIn from "../utils/loggedIn";
-import topEmbed from "../utils/topEmbed";
 import options from "../utils/rangeSubCommandOptions";
 import top from "../utils/top";
 import { Data, Image, External_URLS } from "./topArtists";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
+import defaultEmbed from "../utils/defaultEmbed";
 
 interface AlbumData {
   artists: Array<Data & External_URLS>;
@@ -52,31 +52,25 @@ export const TopTracks: Command = {
     await interaction.deferReply();
 
     try {
-      const { data } = await loggedIn(id);
+      const {
+        data: { name, iconURL, url, error },
+      } = await loggedIn(id);
 
-      if (data.error) {
+      if (error) {
         await notLoggedInInteraction(interaction);
       } else {
-        const {
-          display_name,
-          images,
-          error,
-          external_urls: { spotify },
-        } = data;
         const range = handleRangeAbbreviation(subCommand);
 
         const {
           data: { items },
         } = await top(id, range, "tracks");
 
-        const embed = topEmbed(
-          "Tracks",
-          username,
-          range,
+        const embed = defaultEmbed(
           items[0].album.images[0].url,
-          display_name,
-          spotify,
-          images[0].url,
+          name,
+          iconURL,
+          url,
+          username,
           avatar,
           avatarURL
         );

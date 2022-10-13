@@ -1,10 +1,10 @@
-import { External_URLS } from "./topArtists";
-import { Client, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { Client, ChatInputCommandInteraction } from "discord.js";
 import loggedIn from "../utils/loggedIn";
 import { Command } from "../commands";
 import axios from "axios";
 import errorInteraction from "../utils/errorInteraction";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
+import defaultEmbed from "../utils/defaultEmbed";
 
 export const CurrentlyPlaying: Command = {
   name: "np",
@@ -19,17 +19,13 @@ export const CurrentlyPlaying: Command = {
     await interaction.deferReply();
 
     try {
-      const { data } = await loggedIn(discord_id);
+      const {
+        data: { name, iconURL, url, error },
+      } = await loggedIn(discord_id);
 
-      if (data.error) {
+      if (error) {
         await notLoggedInInteraction(interaction);
       } else {
-        const {
-          display_name,
-          images,
-          error,
-          external_urls: { spotify },
-        } = data;
         const {
           data: { item },
         } = await axios.post("http://localhost:8888/currentlyplaying", {
@@ -37,21 +33,19 @@ export const CurrentlyPlaying: Command = {
         });
 
         if (item) {
-          const embed = new EmbedBuilder()
-            .setColor(0xdb954)
+          const embed = defaultEmbed(
+            item.album.images[0].url,
+            name,
+            iconURL,
+            url,
+            username,
+            avatar,
+            avatarURL
+          );
+
+          embed
             .setTitle(`${username} is now playing`)
-            .setDescription(`*${item.name}*, ${item.artists[0].name}`)
-            .setThumbnail(item.album.images[0].url)
-            .setAuthor({
-              name: display_name,
-              iconURL: images[0].url,
-              url: spotify,
-            })
-            .setFooter({
-              text: username,
-              ...(avatar && { iconURL: avatarURL }),
-            })
-            .setTimestamp();
+            .setDescription(`*${item.name}*, ${item.artists[0].name}`);
 
           await interaction.followUp({
             embeds: [embed],
