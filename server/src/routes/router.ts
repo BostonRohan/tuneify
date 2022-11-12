@@ -8,6 +8,7 @@ import recentlyPlayed from "../controllers/recentlyPlayed";
 import top from "../controllers/top";
 import auth from "../middleware/auth";
 import playlists from "../controllers/playlists";
+import tracks from "../controllers/savedTracks";
 
 const router = express.Router();
 
@@ -20,4 +21,5 @@ router.post("/currentlyplaying", auth, currentlyPlaying);
 router.post("/loggedin", auth, loggedIn);
 router.post("/top", auth, top);
 router.post("/playlists", auth, playlists);
+router.post("/savedtracks", auth, tracks);
 export default router;
