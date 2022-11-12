@@ -82,6 +82,10 @@ export const Playlists: Command = {
         await interaction.followUp({
           embeds: [embed],
         });
+
+        await interaction.followUp({
+          content: playlists[0].external_urls.spotify,
+        });
       }
     } catch {
       await errorInteraction(interaction);
