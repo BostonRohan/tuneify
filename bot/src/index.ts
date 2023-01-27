@@ -13,4 +13,4 @@ const client = new Client({
 ready(client);
 interactionCreate(client);
 
-client.login(process.env.token);
+client.login(process.env.DISCORD_BOT_TOKEN);
