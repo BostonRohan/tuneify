@@ -6,6 +6,9 @@ import { Command } from "../commands";
 import loggedIn from "../utils/loggedIn";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 interface Owner extends Omit<Data, "name"> {
   display_name: string;
@@ -49,7 +52,7 @@ export const Playlists: Command = {
       } else {
         const {
           data: { items },
-        } = await axios.post("http://localhost:8888/playlists", {
+        } = await axios.post(`${process.env.API_URL}/playlists`, {
           discord_id,
         });
 

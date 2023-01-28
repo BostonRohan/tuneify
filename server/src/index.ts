@@ -16,5 +16,5 @@ app.use(express.json());
 app.use(router);
 
 app.listen(8888, () => {
-  console.log(`server started at http://localhost:${8888}`);
+  process.env.npm_lifecycle_event === 'dev' && console.log(`server started at http://localhost:${8888}`);
 });

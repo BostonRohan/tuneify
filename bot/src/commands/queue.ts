@@ -7,6 +7,9 @@ import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
 import { Track } from "./topTracks";
 import { Data, External_URLS } from "./topArtists";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const Queue: Command = {
   name: "q",
@@ -29,7 +32,7 @@ export const Queue: Command = {
       } else {
         const {
           data: { currently_playing, queue },
-        } = await axios.post("http://localhost:8888/queue", {
+        } = await axios.post(`${process.env.API_URL}/queue`, {
           discord_id,
         });
 

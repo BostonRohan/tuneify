@@ -10,7 +10,7 @@ const getTokenData = ({ api, refresh_token, code }: Props) => {
       client_secret: process.env.DISCORD_CLIENT_SECRET,
       code,
       grant_type: "authorization_code",
-      redirect_uri: "http://localhost:8888/discord/auth",
+      redirect_uri: process.env.DISCORD_REDIRECT_URI,
       scope: "identify connections",
     };
   } else {
@@ -22,7 +22,7 @@ const getTokenData = ({ api, refresh_token, code }: Props) => {
     } else
       return {
         code,
-        redirect_uri: "http://localhost:8888/spotify/auth",
+        redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
         grant_type: "authorization_code",
       };
   }

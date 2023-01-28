@@ -7,6 +7,9 @@ import { Command } from "../commands";
 import defaultEmbed from "../utils/defaultEmbed";
 import { Track } from "./topTracks";
 import { Data, External_URLS } from "./topArtists";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 interface TrackObj {
   track: Track;
@@ -33,7 +36,7 @@ export const RecentlyPlayed: Command = {
       } else {
         const {
           data: { items },
-        } = await axios.post("http://localhost:8888/recentlyplayed", {
+        } = await axios.post(`${process.env.API_URL}/recentlyplayed`, {
           discord_id,
         });
 
