@@ -24,6 +24,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   const {
     body: { discord_id },
   } = req;
+  const {path} = req;
 
   if (discord_id) {
     const user = await prisma.user.findUnique({
@@ -32,17 +33,36 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       },
     });
 
-    const { error, data } = isUser(user);
+    const isUserRes = isUser(user);
+  
+    if ("data" in isUserRes) {
+      const { data } = isUserRes;
+      //loggedin gets requested on every bot command which was doubling the requests count
+      if(path !== '/loggedin'){
+      try{
+        let currentRequests = data.requests;
 
-    if (data) {
-      const { expires_in, name, url, image } = data;
+        await prisma.user.update({
+          where: {
+            discord_id
+          },
+          data: {
+            requests: currentRequests +=1
+          }
+        })
+      }catch{
+        res.send({error: 'there was an error updating the user requests'});
+      }
+    }
 
       const { refresh_token } = jwt.verify(
         data.refresh_token,
         process.env.JWT_SECRET as string
       ) as DecodedRefresh;
 
-      if (expires_in.getTime() < Math.round(Date.now())) {
+      const {expires_in, name, url, image} = data;
+
+      if ( expires_in.getTime() < Math.round(Date.now())) {
         try {
           const { access_token, expires_in } = await getToken({
             api: "spotify",
@@ -84,6 +104,8 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
         next();
       }
     } else {
+      const {error} = isUserRes;
+
       res.send({ error });
     }
   } else {
