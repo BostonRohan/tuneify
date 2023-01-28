@@ -56,12 +56,13 @@ export const Playlists: Command = {
           discord_id,
         });
 
-        //filters out private playlists
+        //filters out private playlists and empty playlists
         //filters out possible empty image arrays
-        const playlists = items.filter((playlist: Playlist) => playlist.public);
+        const playlists = items.filter((playlist: Playlist) => playlist.public && playlist.tracks.total > 0);
         const images = playlists
           .map((playlist: Playlist) => playlist.images)
           .filter((image: Image[]) => image.length);
+
 
         const embed = defaultEmbed(
           images[0][0].url,
