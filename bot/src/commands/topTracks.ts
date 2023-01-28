@@ -8,6 +8,8 @@ import top from "../utils/top";
 import { Data, Image, External_URLS } from "./topArtists";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
+import rangeText from "../utils/rangeText";
+import usernameApostrophe from "../utils/usernameApostrophe";
 
 interface AlbumData {
   artists: Array<Data & External_URLS>;
@@ -83,6 +85,8 @@ export const TopTracks: Command = {
               .join(", ")}`,
           })
         );
+
+        embed.setTitle(`${usernameApostrophe(username)} Top Spotify Tracks of ${rangeText(range)}`)
 
         await interaction.followUp({
           embeds: [embed],

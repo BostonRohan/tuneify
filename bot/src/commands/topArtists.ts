@@ -8,6 +8,8 @@ import options from "../utils/rangeSubCommandOptions";
 import handleRangeAbbreviation from "../utils/handleRangeAbbreviation";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
+import rangeText from "../utils/rangeText";
+import usernameApostrophe from "../utils/usernameApostrophe";
 
 export type Image = {
   height: number | null;
@@ -85,6 +87,8 @@ export const TopArtists: Command = {
               .join(", "),
           })
         );
+
+        embed.setTitle(`${usernameApostrophe(username)} Top Spotify Tracks of ${rangeText(range)}`)
 
         await interaction.followUp({
           embeds: [embed],
