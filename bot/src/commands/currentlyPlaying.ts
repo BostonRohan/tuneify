@@ -31,7 +31,7 @@ export const CurrentlyPlaying: Command = {
       } else {
         const {
           data: { item },
-        } = await axios.post(`${process.env.API_URL}/currentlyplaying"`, {
+        } = await axios.post(`${process.env.API_URL}/currentlyplaying`, {
           discord_id,
         });
 
