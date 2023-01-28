@@ -1,9 +1,6 @@
 import { User } from "@prisma/client";
 import unauthorized from "./unauthorized";
 
-type RequiredNonNullableObject<T extends object> = { [P in keyof Required<T>]: NonNullable<T[P]>; };
-
-
 interface Error {
   error: {unauthorized: string}
 }
