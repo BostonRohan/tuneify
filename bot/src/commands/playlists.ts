@@ -7,6 +7,7 @@ import loggedIn from "../utils/loggedIn";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
 import dotenv from "dotenv";
+import usernameApostrophe from "../utils/usernameApostrophe";
 
 dotenv.config();
 
@@ -74,7 +75,7 @@ export const Playlists: Command = {
           avatarURL
         );
 
-        embed.setTitle(`${username}'s Playlists`);
+        embed.setTitle(`${usernameApostrophe(username)} Playlists`);
 
         playlists.map((playlist: Playlist) => {
           embed.addFields({

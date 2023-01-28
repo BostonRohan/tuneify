@@ -8,6 +8,7 @@ import defaultEmbed from "../utils/defaultEmbed";
 import { Track } from "./topTracks";
 import { Data, External_URLS } from "./topArtists";
 import dotenv from "dotenv";
+import usernameApostrophe from "../utils/usernameApostrophe";
 
 dotenv.config();
 
@@ -50,7 +51,7 @@ export const RecentlyPlayed: Command = {
           avatarURL
         );
 
-        embed.setTitle(`${username}'s Recently Played`);
+        embed.setTitle(`${usernameApostrophe(username)} Recently Played`);
 
         items.map((obj: TrackObj, i: number) => {
           const { track } = obj;

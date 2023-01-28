@@ -74,8 +74,7 @@ export const TopArtists: Command = {
           avatarURL
         );
 
-        embed
-          .setTitle(`${username}'s Top Spotify Artists`)
+        embed.setTitle(`${usernameApostrophe(username)} Top Spotify Artists of ${rangeText(range)}`)
           .setDescription(`*${toTitleCase(range.replace(/_/g, " "))}*`);
 
         items.map((artist: Artist, i: number) =>
@@ -87,8 +86,6 @@ export const TopArtists: Command = {
               .join(", "),
           })
         );
-
-        embed.setTitle(`${usernameApostrophe(username)} Top Spotify Tracks of ${rangeText(range)}`)
 
         await interaction.followUp({
           embeds: [embed],

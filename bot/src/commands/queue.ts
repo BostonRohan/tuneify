@@ -8,6 +8,7 @@ import defaultEmbed from "../utils/defaultEmbed";
 import { Track } from "./topTracks";
 import { Data, External_URLS } from "./topArtists";
 import dotenv from "dotenv";
+import usernameApostrophe from "../utils/usernameApostrophe";
 
 dotenv.config();
 
@@ -52,7 +53,7 @@ export const Queue: Command = {
           );
 
           embed
-            .setTitle(`${username}'s Queue`)
+            .setTitle(`${usernameApostrophe(username)} Queue`)
             .setDescription(
               `Currently Playing: *${currently_playing.name}*, ${currently_playing.artists[0].name} `
             );
