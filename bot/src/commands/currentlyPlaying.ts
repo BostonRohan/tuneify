@@ -5,6 +5,9 @@ import axios from "axios";
 import errorInteraction from "../utils/errorInteraction";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const CurrentlyPlaying: Command = {
   name: "np",
@@ -28,7 +31,7 @@ export const CurrentlyPlaying: Command = {
       } else {
         const {
           data: { item },
-        } = await axios.post("http://localhost:8888/currentlyplaying", {
+        } = await axios.post(`${process.env.API_URL}/currentlyplaying"`, {
           discord_id,
         });
 

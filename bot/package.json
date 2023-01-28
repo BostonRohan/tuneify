@@ -4,7 +4,7 @@
   "description": "Spotify Discord Bot",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "Boston Rohan",

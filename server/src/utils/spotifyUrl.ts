@@ -10,6 +10,6 @@ export default "https://accounts.spotify.com/authorize?" +
     response_type: "code",
     client_id: process.env.SPOTIFY_CLIENT_ID,
     scope,
-    redirect_uri: "http://localhost:8888/spotify/auth",
+    redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     state,
   });
