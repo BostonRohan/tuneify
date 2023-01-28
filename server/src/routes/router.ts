@@ -28,6 +28,6 @@ router.post("/playlists", auth, playlists);
 router.post("/savedtracks", auth, tracks);
 
 //top 25 user
-router.post('/top25', top25);
+router.post('/top25', auth, top25);
 
 export default router;
