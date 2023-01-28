@@ -8,6 +8,8 @@ import options from "../utils/rangeSubCommandOptions";
 import handleRangeAbbreviation from "../utils/handleRangeAbbreviation";
 import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
+import rangeText from "../utils/rangeText";
+import usernameApostrophe from "../utils/usernameApostrophe";
 
 export type Image = {
   height: number | null;
@@ -72,8 +74,7 @@ export const TopArtists: Command = {
           avatarURL
         );
 
-        embed
-          .setTitle(`${username}'s Top Spotify Artists`)
+        embed.setTitle(`${usernameApostrophe(username)} Top Spotify Artists of ${rangeText(range)}`)
           .setDescription(`*${toTitleCase(range.replace(/_/g, " "))}*`);
 
         items.map((artist: Artist, i: number) =>
