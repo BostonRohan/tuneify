@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import handleSpreadSheet from "../utils/handleSpreadSheet";
+import { prisma } from "../index";
 
 const top25SignUp = async (req: Request, res: Response) => {
   const {
-    body: { full_name, email },
+    body: { discord_id, full_name, email },
   } = req;
   try {
     const sheet = await handleSpreadSheet();
@@ -18,6 +19,11 @@ const top25SignUp = async (req: Request, res: Response) => {
     await sheet.addRow({
       name: full_name,
       email,
+    });
+
+    await prisma.user.update({
+      where: { discord_id },
+      data: { email, full_name },
     });
 
     res.sendStatus(200);
