@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { prisma } from "../index";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
 const top25SignUp = async (req: Request, res: Response) => {
@@ -20,6 +19,15 @@ const top25SignUp = async (req: Request, res: Response) => {
 
     const rows = await sheet.getRows();
 
+    //if user is already on the spreadsheet, return their rank
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i]._rawData.includes(email)) {
+        res.status(200).send({ data: { rank: i + 1 } });
+        return;
+      }
+    }
+
+    //delete from the bottom up last in, last out
     if (rows.length === 23) {
       rows[0].delete();
     }
