@@ -20,4 +20,6 @@ model User {
   url String?
   image String?
   requests Int?
+  email String? @unique
+  full_name String?
 }
