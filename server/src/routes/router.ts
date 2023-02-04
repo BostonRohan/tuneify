@@ -11,6 +11,7 @@ import playlists from "../controllers/playlists";
 import tracks from "../controllers/savedTracks";
 import top25 from "../controllers/top25";
 import top25SignUp from "../controllers/top25SignUp";
+import top25SignedUp from "../controllers/top25SignedUp";
 
 const router = express.Router();
 
@@ -30,5 +31,6 @@ router.post("/savedtracks", auth, tracks);
 //top 25 user
 router.post("/top25", auth, top25);
 router.post("/top25signup", auth, top25SignUp);
+router.post("/top25signedup", auth, top25SignedUp);
 
 export default router;
