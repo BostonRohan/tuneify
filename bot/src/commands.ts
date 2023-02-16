@@ -10,6 +10,7 @@ import { Queue } from "./commands/queue";
 import { RecentlyPlayed } from "./commands/recentlyPlayed";
 import { Start } from "./commands/start";
 import { TopArtists } from "./commands/topArtists";
+import { Top25 } from "./commands/topSignUp";
 import { TopTracks } from "./commands/topTracks";
 
 export interface Command extends ChatInputApplicationCommandData {
@@ -25,4 +26,5 @@ export const Commands: Command[] = [
   Queue,
   RecentlyPlayed,
   Playlists,
+  Top25,
 ];
