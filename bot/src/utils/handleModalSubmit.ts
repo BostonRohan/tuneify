@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ModalSubmitInteraction, CacheType } from "discord.js";
+import errorInteractionReply from "./errorInteractionReply";
 
 export default async (interaction: ModalSubmitInteraction<CacheType>) => {
   const {
@@ -44,10 +45,7 @@ export default async (interaction: ModalSubmitInteraction<CacheType>) => {
           });
         }
       } catch {
-        return await interaction.reply({
-          ephemeral: true,
-          content: "there was an error signing up, please try again",
-        });
+        return await errorInteractionReply(interaction);
       }
     } else {
       return await interaction.reply({
@@ -56,9 +54,6 @@ export default async (interaction: ModalSubmitInteraction<CacheType>) => {
       });
     }
   } catch {
-    return await interaction.reply({
-      ephemeral: true,
-      content: "there was an error signing up, please try again",
-    });
+    return await errorInteractionReply(interaction);
   }
 };

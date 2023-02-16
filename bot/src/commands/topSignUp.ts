@@ -3,12 +3,10 @@ import {
   ChatInputCommandInteraction,
   ModalBuilder,
   ActionRowBuilder,
-  TextInputBuilder,
   TextInputStyle,
   ModalActionRowComponentBuilder,
 } from "discord.js";
 import { Command } from "../commands";
-import errorInteraction from "../utils/errorInteraction";
 import dotenv from "dotenv";
 import input from "../utils/input";
 
@@ -55,7 +53,10 @@ export const Top25: Command = {
 
       await interaction.showModal(modal);
     } catch {
-      await errorInteraction(interaction);
+      await interaction.reply({
+        ephemeral: true,
+        content: "there was an error running this command, please try again",
+      });
     }
   },
 };
