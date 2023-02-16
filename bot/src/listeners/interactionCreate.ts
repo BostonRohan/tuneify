@@ -1,14 +1,14 @@
-import {
-  CommandInteraction,
-  Client,
-  ChatInputCommandInteraction,
-} from "discord.js";
+import { Client, ChatInputCommandInteraction } from "discord.js";
+import handleModalSubmit from "../utils/handleModalSubmit";
 import { Commands } from "../commands";
 
 export default (client: Client): void => {
   client.on("interactionCreate", async (interaction) => {
     if (interaction.isChatInputCommand()) {
       await handleSlashCommand(client, interaction);
+    }
+    if (interaction.isModalSubmit()) {
+      await handleModalSubmit(interaction);
     }
   });
 };
