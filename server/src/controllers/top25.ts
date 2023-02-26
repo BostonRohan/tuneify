@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { prisma } from "../index";
-import { User } from "../../dist/node_modules/.prisma/client/index";
 
 const top25 = async (req: Request, res: Response) => {
   const {
@@ -12,7 +11,7 @@ const top25 = async (req: Request, res: Response) => {
       orderBy: { requests: "desc" },
     });
 
-    const top25 = users.find((user: User) => user.discord_id === discord_id);
+    const top25 = users.find((user) => user.discord_id === discord_id);
 
     res.send({ data: top25 ? true : false });
   } catch (error) {
