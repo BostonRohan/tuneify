@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node index.js",
     "dev": "nodemon src/index.ts",
-    "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production"
+    "postbuild": "cp package.json dist/package.json && cd dist && npm install && npx prisma migrate deploy --only=production"
   },
   "keywords": [],
   "author": "",
