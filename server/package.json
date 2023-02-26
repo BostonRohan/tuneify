@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "npx prisma migrate deploy && node index.js",
+    "start": "npx prisma migrate deploy --schema ./node_modules/.prisma/client/schema.prisma && node index.js",
     "dev": "nodemon src/index.ts",
     "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production"
   },
