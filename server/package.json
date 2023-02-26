@@ -6,8 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
-    "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production"
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "",
