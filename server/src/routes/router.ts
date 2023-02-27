@@ -15,6 +15,10 @@ import top25SignedUp from "../controllers/top25SignedUp";
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.send("Spotibot server is live!");
+});
+
 //auth
 router.get("/discord/auth", discordAuth);
 router.get("/spotify/auth", spotifyAuth);
