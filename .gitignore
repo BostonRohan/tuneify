@@ -3,4 +3,3 @@ node_modules
 migrations
 dev.db
 dev.db-journal
-dist
