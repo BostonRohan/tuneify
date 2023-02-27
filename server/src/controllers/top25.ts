@@ -6,7 +6,7 @@ const top25 = async (req: Request, res: Response) => {
     body: { discord_id },
   } = req;
   try {
-    const users = await prisma.user.findMany({
+    const users: { discord_id: string }[] = await prisma.user.findMany({
       select: { discord_id: true },
       orderBy: { requests: "desc" },
     });
