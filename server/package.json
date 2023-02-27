@@ -9,10 +9,10 @@
     "add-build"
   ],
   "scripts": {
-    "start": "nodemon src/index.ts",
-    "build": "npx tsc",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add dist"
+    "start": "node index.js",
+    "dev": "nodemon src/index.ts",
+    "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",
+    "build": "npx tsc"
   },
   "keywords": [],
   "author": "",
@@ -24,9 +24,7 @@
     "@types/node": "^18.7.14",
     "@types/uuid": "^8.3.4",
     "nodemon": "^2.0.19",
-    "pre-commit": "^1.2.2",
     "prisma": "^4.9.0",
-    "rimraf": "^4.1.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.2"
   },
