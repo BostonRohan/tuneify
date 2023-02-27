@@ -1,1 +1,0 @@
-{"version":3,"file":"setAxiosHeaders.js","sourceRoot":"","sources":["../../src/utils/setAxiosHeaders.ts"],"names":[],"mappings":";;;;;AAAA,gDAA0B;AAC1B,IAAM,eAAe,GAAG,UAAC,YAAoB;IAC3C,kBAAK,CAAC,QAAQ,CAAC,OAAO,CAAC,MAAM,CAAC,eAAe,CAAC,GAAG,iBAAU,YAAY,CAAE,CAAC;IAC1E,kBAAK,CAAC,QAAQ,CAAC,OAAO,CAAC,MAAM,CAAC,cAAc,CAAC,GAAG,kBAAkB,CAAC;AACrE,CAAC,CAAC;AAEF,qBAAe,eAAe,CAAC"}
