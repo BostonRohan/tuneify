@@ -1,4 +1,4 @@
-import { Client, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { Client, ChatInputCommandInteraction } from "discord.js";
 import loggedIn from "../utils/loggedIn";
 import { Command } from "../commands";
 import top from "../utils/top";
@@ -10,9 +10,7 @@ import notLoggedInInteraction from "../utils/notLoggedInInteraction";
 import defaultEmbed from "../utils/defaultEmbed";
 import rangeText from "../utils/rangeText";
 import usernameApostrophe from "../utils/usernameApostrophe";
-import axios from "axios";
 import dotenv from "dotenv";
-import notTop25Embed from "../utils/notTop25Embed";
 
 dotenv.config();
 
