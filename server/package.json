@@ -3,8 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "start": "node index.js",
+    "dev": "nodemon src/index.ts",
+    "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",
+    "build": "npx tsc"
   },
   "keywords": [],
   "author": "",

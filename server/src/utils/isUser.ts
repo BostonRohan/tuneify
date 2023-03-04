@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "../types/User";
 import unauthorized from "./unauthorized";
 
 interface Error {
