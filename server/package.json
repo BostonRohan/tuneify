@@ -9,7 +9,7 @@
     "add-build"
   ],
   "scripts": {
-    "start": "node index.js",
+    "start": "npx prisma generate && node index.js",
     "dev": "nodemon src/index.ts",
     "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",
     "build": "npx tsc"
