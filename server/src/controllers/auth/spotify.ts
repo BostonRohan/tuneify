@@ -51,14 +51,15 @@ const spotifyAuth = async (req: Request, res: Response) => {
           process.env.JWT_SECRET as string
         ),
         name: display_name,
-        image: images[0].url,
+        image: images[0]?.url,
         url: spotify,
         expires_in: new Date(Math.round(Date.now()) + expires_in * 1000),
       },
     });
 
     res.redirect("https://discord.com/channels/@me");
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.redirect("https://discord.com/channels/@me");
   }
 };

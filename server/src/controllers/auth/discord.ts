@@ -64,14 +64,11 @@ const discordAuth = async (req: Request, res: Response) => {
           discord_id,
         },
       });
-      res.redirect(spotifyUrl);
-    } else if (user && user.spotify_id && !user.name) {
-      res.redirect(spotifyUrl);
-    } else {
-      res.redirect("https://discord.com/channels/@me");
     }
-  } catch {
-    res.redirect("https://discord.com/channels/@me");
+    res.redirect(spotifyUrl);
+  } catch (err) {
+    console.error(err);
+    res.redirect(spotifyUrl);
   }
 };
 
