@@ -4,3 +4,4 @@ migrations
 dev.db
 dev.db-journal
 dist
+fly.toml
