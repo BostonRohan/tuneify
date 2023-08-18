@@ -1,6 +1,18 @@
-# Spotibot
+# Tuneify
 
 Spotify stats in a discord bot!
+
+Reach out to have your account added to the authorized users list - currently undergoing compliance with spotify
+
+![Top Artists Command Tuneify](https://raw.githubusercontent.com/BostonRohan/tuneify/main/bot/public/top_artists.png "Top Artists")
+
+![Top Tracks Command Tuneify](https://raw.githubusercontent.com/BostonRohan/tuneify/main/bot/public/top_tracks.png "Top Tracks")
+
+![Now Playing Command Tuneify](https://raw.githubusercontent.com/BostonRohan/tuneify/main/bot/public/now_playing.png "Now Playing")
+
+![Queue Command Tuneify](https://raw.githubusercontent.com/BostonRohan/tuneify/main/bot/public/queue.png "Queue")
+
+![Recently Played Command Tuneify](https://raw.githubusercontent.com/BostonRohan/tuneify/main/bot/public/recently_played.png "Recently Played")
 
 ## Setup
 
@@ -23,23 +35,17 @@ SPOTIFY_CLIENT_ID= SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET= SPOTIFY_CLIENT_SECRET
 DISCORD_CLIENT_ID= DISCORD_CLIENT_ID
 DISCORD_CLIENT_SECRET= DISCORD_CLIENT_SECRET
-DISCORD_REDIRECT_URI= DISCORD_REDIREECT_URI
+DISCORD_REDIRECT_URI= DISCORD_REDIRECT_URI
 SPOTIFY_REDIRECT_URI= SPOTIFY_REDIRECT_URI
-SPREADSHEET_ID= SPREADSHEET_ID
-GOOGLE_SERVICE_EMAIL= GOOGLE_SERVICE_EMAIL
-GOOGLE_PRIVATE_KEY= GOOGLE_SHEETS_API_KEY
 ```
 
 `bot/ .env`
 
 ```
-SPOTIFY_CLIENT_ID= SPOTIFY_CLIENT_ID
-SPOTIFY_CLIENT_SECRET= SPOTIFY_CLIENT_SECRET
-DISCORD_AUTH_URL= DISCORD_AUTH_URL
+SPOTIFY_CLIENT_ID=SPOTIFY_CLIENT_ID
+SPOTIFY_CLIENT_SECRET=SPOTIFY_CLIENT_SECRET
+DISCORD_AUTH_URL=DISCORD_AUTH_URL
 DISCORD_BOT_TOKEN= DISCORD_BOT_TOKEN
-TOP_ARTISTS_IMAGE="https://raw.githubusercontent.com/BostonRohan/spotibot/main/bot/public/top_artists.png"
-TOP_TRACKS_IMAGE="https://raw.githubusercontent.com/BostonRohan/spotibot/main/bot/public/top_tracks.png"
-TOP_GG_URL=""
 API_URL= API_URL || YOUR LOCAL HOST PORT ex:"http://localhost:3000"
 ```
 
